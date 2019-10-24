@@ -21,8 +21,8 @@ public class Game {
     public Game() {
         for (int i = 0; i < 50; i++) {
             popQuestions.addLast("Pop Question " + i);
-            scienceQuestions.addLast(("Science Question " + i));
-            sportsQuestions.addLast(("Sports Question " + i));
+            scienceQuestions.addLast("Science Question " + i);
+            sportsQuestions.addLast("Sports Question " + i);
             rockQuestions.addLast("Rock Question " + i);
         }
     }
@@ -48,6 +48,16 @@ public class Game {
         inPenaltyBox[numberPlayers] = false;
     }
 
+    private void movePlayer(int roll) {
+        places[currentPlayer] = (places[currentPlayer] + roll) % 12;
+        System.out.println(players.get(currentPlayer) + "'s new location is " + places[currentPlayer]);
+    }
+
+    private void increasePursePlayer() {
+        purses[currentPlayer]++;
+        System.out.println(players.get(currentPlayer) + " now has " + purses[currentPlayer] + " Gold Coins.");
+    }
+
     public int howManyPlayers() {
         return players.size();
     }
@@ -59,17 +69,20 @@ public class Game {
         boolean isCurrentPlayerInPenaltyBox = this.inPenaltyBox[currentPlayer];
 
         if (isCurrentPlayerInPenaltyBox && isEven(roll)) {
+            // Extract in method enterPenaltyBox
             isGettingOutOfPenaltyBox = false;
             System.out.println(players.get(currentPlayer) + " is not getting out of the penalty box");
             return;
         }
 
         if (isCurrentPlayerInPenaltyBox && isOdd(roll)) {
+            // Extract in method exitPenaltyBox
             isGettingOutOfPenaltyBox = true;
             System.out.println(players.get(currentPlayer) + " is getting out of the penalty box");
         }
 
         movePlayer(roll);
+        System.out.println("The category is " + currentCategory());
         askQuestion();
     }
 
@@ -80,14 +93,6 @@ public class Game {
     private boolean isEven(int roll) {
         return roll % 2 == 0;
     }
-
-
-    private void movePlayer(int roll) {
-        places[currentPlayer] = (places[currentPlayer] + roll) % 12;
-        System.out.println(players.get(currentPlayer) + "'s new location is " + places[currentPlayer]);
-        System.out.println("The category is " + currentCategory());
-    }
-
     private void askQuestion() {//one responsability
         if (currentCategory() == "Pop")//qqc avec egal?
             System.out.println(popQuestions.removeFirst());
@@ -123,11 +128,6 @@ public class Game {
 
     private boolean didPlayerWin() {
         return purses[currentPlayer] != 6;
-    }
-
-    private void increasePursePlayer() {
-        purses[currentPlayer]++;
-        System.out.println(players.get(currentPlayer) + " now has " + purses[currentPlayer] + " Gold Coins.");
     }
 
     public void nextPlayer() {
