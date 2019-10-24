@@ -110,47 +110,43 @@ public class Game {
 	}
 
 	public boolean wasCorrectlyAnswered() {//plusieurs responsabilites? renommer?
-    	boolean winner = true;
 
-		if (inPenaltyBox[currentPlayer]){
-			if (isGettingOutOfPenaltyBox) {
-				System.out.println("Answer was correct!!!!");
-				//duplication
-				purses[currentPlayer]++;
-				System.out.println(players.get(currentPlayer) + " now has " + purses[currentPlayer] + " Gold Coins.");
-				winner = didPlayerWin();
-				//---
-			}
-		} else {
-			System.out.println("Answer was corrent!!!!");//faute orthographe --> pour plus tard
-			//duplication
-			purses[currentPlayer]++;
-			System.out.println(players.get(currentPlayer) + " now has " + purses[currentPlayer] + " Gold Coins.");
-			winner = didPlayerWin();
-			//---
+		if (inPenaltyBox[currentPlayer] && !isGettingOutOfPenaltyBox) {
+			return true;
 		}
-		nextPlayer();
-		return winner;
+
+		if (inPenaltyBox[currentPlayer] && isGettingOutOfPenaltyBox) {
+			System.out.println("Answer was correct!!!!");
+		} else {
+			System.out.println("Answer was corrent!!!!"); // faute orthographe --> pour plus tard
+		}
+
+		increasePursePlayer();
+		return didPlayerWin();
 	}
 
-	private void nextPlayer() {
+	private void increasePursePlayer() {
+		purses[currentPlayer]++;
+		System.out.println(players.get(currentPlayer) + " now has " + purses[currentPlayer] + " Gold Coins.");
+	}
+
+	public void nextPlayer() {
 		currentPlayer++;
 		if (currentPlayer == players.size()) {
 			currentPlayer = 0;
 		}
 	}
 
-	public boolean wrongAnswer(){//return always true
+	public boolean wrongAnswer(){ // return always true
 		System.out.println("Question was incorrectly answered");
 		System.out.println(players.get(currentPlayer)+ " was sent to the penalty box");
 		inPenaltyBox[currentPlayer] = true;
-		//duplication
 		nextPlayer();
 		return true;
 	}
 
 
 	private boolean didPlayerWin() {
-		return !(purses[currentPlayer] == 6);
+		return purses[currentPlayer] != 6;
 	}
 }

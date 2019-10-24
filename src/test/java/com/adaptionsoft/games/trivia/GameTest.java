@@ -38,6 +38,7 @@ public class GameTest {
             }
             else {
                 notAWinner = aGame.wasCorrectlyAnswered();
+                aGame.nextPlayer();
             }
         } while (notAWinner);
 
