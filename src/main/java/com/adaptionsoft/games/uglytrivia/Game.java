@@ -119,10 +119,7 @@ public class Game {
 				purses[currentPlayer]++;
 				System.out.println(players.get(currentPlayer) + " now has " + purses[currentPlayer] + " Gold Coins.");
 				winner = didPlayerWin();
-				nextPlayer();
 				//---
-			} else {
-				nextPlayer();
 			}
 		} else {
 			System.out.println("Answer was corrent!!!!");//faute orthographe --> pour plus tard
@@ -130,9 +127,9 @@ public class Game {
 			purses[currentPlayer]++;
 			System.out.println(players.get(currentPlayer) + " now has " + purses[currentPlayer] + " Gold Coins.");
 			winner = didPlayerWin();
-			nextPlayer();
 			//---
 		}
+		nextPlayer();
 		return winner;
 	}
 
