@@ -15,47 +15,51 @@ import java.util.stream.Stream;
 
 public class GameTest {
 
-
     @Test
     public void main_test() {
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(baos);
-        System.setOut(ps);
-
+        // Given
         boolean notAWinner;
         long seed = 1;
+        Random rand = new Random(seed);
+        ByteArrayOutputStream actualResult = redirectOutput();
         Game aGame = new Game();
 
         aGame.add("Chet");
         aGame.add("Pat");
         aGame.add("Sue");
 
-        Random rand = new Random(seed);
-
+        // When
         do {
             aGame.roll(rand.nextInt(5) + 1);
 
             if (rand.nextInt(9) == 7) {
                 notAWinner = aGame.wrongAnswer();
-            } else {
+            }
+            else {
                 notAWinner = aGame.wasCorrectlyAnswered();
             }
         } while (notAWinner);
 
-        String stringBuilder = null;
+        // Then
+        String expectedResult = getContentFile("C:\\Users\\Lenovo 30\\Documents\\promo11-trivia\\Trivia-promo11\\resources\\output.txt");
+        Assertions.assertThat(actualResult.toString()).isEqualTo(expectedResult);
+    }
 
-		try (Stream<String> stream = Files.lines(Paths.get("C:\\Users\\Lenovo 30\\Documents\\promo11-trivia\\Trivia-promo11\\resources\\output.txt"))) {
+    private ByteArrayOutputStream redirectOutput() {
+        ByteArrayOutputStream actualResult = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(actualResult);
+        System.setOut(ps);
+        return actualResult;
+    }
 
-            stringBuilder = stream.collect(Collectors.joining("\r\n"));
+    private String getContentFile(String filePath) {
+        String expectedResult = null;
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-
-
-        Assertions.assertThat(baos.toString()).isEqualTo(stringBuilder);
-
-	}
+        try (Stream<String> stream = Files.lines(Paths.get(filePath))) {
+            expectedResult = stream.collect(Collectors.joining("\r\n"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return expectedResult;
+    }
 }
