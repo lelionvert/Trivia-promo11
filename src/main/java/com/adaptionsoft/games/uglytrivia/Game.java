@@ -110,38 +110,36 @@ public class Game {
 	}
 
 	public boolean wasCorrectlyAnswered() {//plusieurs responsabilites? renommer?
+    	boolean winner = true;
+
 		if (inPenaltyBox[currentPlayer]){
 			if (isGettingOutOfPenaltyBox) {
 				System.out.println("Answer was correct!!!!");
 				//duplication
 				purses[currentPlayer]++;
 				System.out.println(players.get(currentPlayer) + " now has " + purses[currentPlayer] + " Gold Coins.");
-				boolean winner = didPlayerWin();
-				currentPlayer++;
-				if (currentPlayer == players.size()) {
-					currentPlayer = 0;
-				}
-				return winner;
+				winner = didPlayerWin();
+				nextPlayer();
 				//---
 			} else {
-				currentPlayer++;
-				if (currentPlayer == players.size()) {
-					currentPlayer = 0;
-				}
-				return true;
+				nextPlayer();
 			}
 		} else {
 			System.out.println("Answer was corrent!!!!");//faute orthographe --> pour plus tard
 			//duplication
 			purses[currentPlayer]++;
 			System.out.println(players.get(currentPlayer) + " now has " + purses[currentPlayer] + " Gold Coins.");
-			boolean winner = didPlayerWin();
-			currentPlayer++;
-			if (currentPlayer == players.size()) {//reset to first player
-				currentPlayer = 0;
-			}
-			return winner;
+			winner = didPlayerWin();
+			nextPlayer();
 			//---
+		}
+		return winner;
+	}
+
+	private void nextPlayer() {
+		currentPlayer++;
+		if (currentPlayer == players.size()) {
+			currentPlayer = 0;
 		}
 	}
 
@@ -150,10 +148,7 @@ public class Game {
 		System.out.println(players.get(currentPlayer)+ " was sent to the penalty box");
 		inPenaltyBox[currentPlayer] = true;
 		//duplication
-		currentPlayer++;//next player
-		if (currentPlayer == players.size()) {
-			currentPlayer = 0;
-		}
+		nextPlayer();
 		return true;
 	}
 
