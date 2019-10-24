@@ -59,19 +59,27 @@ public class Game {
         System.out.println(players.get(currentPlayer) + " is the current player");
         System.out.println("They have rolled a " + roll);//faute orthographe --> pour plus tard
 
-        if (inPenaltyBox[currentPlayer] && roll % 2 == 0) {
+        if (inPenaltyBox[currentPlayer] && isEven(roll)) {
             isGettingOutOfPenaltyBox = false;
             System.out.println(players.get(currentPlayer) + " is not getting out of the penalty box");
             return;
         }
 
-        if (inPenaltyBox[currentPlayer] && roll % 2 != 0) {
+        if (inPenaltyBox[currentPlayer] && isOdd(roll)) {
             isGettingOutOfPenaltyBox = true;
             System.out.println(players.get(currentPlayer) + " is getting out of the penalty box");
         }
 
         movePlayer(roll);
         askQuestion();
+    }
+
+    private boolean isOdd(int roll) {
+        return roll % 2 != 0;
+    }
+
+    private boolean isEven(int roll) {
+        return roll % 2 == 0;
     }
 
 
