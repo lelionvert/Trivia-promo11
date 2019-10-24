@@ -8,15 +8,16 @@ public class Game {
     int[] places = new int[6];
     int[] purses  = new int[6];
     boolean[] inPenaltyBox  = new boolean[6];
-    
+
+    // Duplication -> Same class
     LinkedList popQuestions = new LinkedList();
     LinkedList scienceQuestions = new LinkedList();
     LinkedList sportsQuestions = new LinkedList();
     LinkedList rockQuestions = new LinkedList();
-    
+
     int currentPlayer = 0;
     boolean isGettingOutOfPenaltyBox;
-    
+
     public  Game(){
     	for (int i = 0; i < 50; i++) {
 			popQuestions.addLast("Pop Question " + i);
@@ -26,80 +27,81 @@ public class Game {
     	}
     }
 
+    // Same as others
 	public String createRockQuestion(int index){
 		return "Rock Question " + index;
 	}
-	
+
+	// Not used
 	public boolean isPlayable() {
 		return (howManyPlayers() >= 2);
 	}
 
+	// Change signature, name, one responsability thing
 	public boolean add(String playerName) {
-		
-		
 	    players.add(playerName);
+	    // several calls of howManyPlayers
+		//extract methods?
 	    places[howManyPlayers()] = 0;
 	    purses[howManyPlayers()] = 0;
 	    inPenaltyBox[howManyPlayers()] = false;
-	    
+
 	    System.out.println(playerName + " was added");
-	    System.out.println("They are player number " + players.size());
+	    System.out.println("They are player number " + players.size());//duplication cachée
 		return true;
 	}
-	
+
 	public int howManyPlayers() {
 		return players.size();
 	}
 
 	public void roll(int roll) {
 		System.out.println(players.get(currentPlayer) + " is the current player");
-		System.out.println("They have rolled a " + roll);
-		
+		System.out.println("They have rolled a " + roll);//faute orthographe --> pour plus tard
+		//imbrication des conditions
 		if (inPenaltyBox[currentPlayer]) {
-			if (roll % 2 != 0) {
+			if (roll % 2 != 0) {//extract?
 				isGettingOutOfPenaltyBox = true;
-				
 				System.out.println(players.get(currentPlayer) + " is getting out of the penalty box");
+
+				//duplication
 				places[currentPlayer] = places[currentPlayer] + roll;
-				if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
-				
-				System.out.println(players.get(currentPlayer) 
-						+ "'s new location is " 
-						+ places[currentPlayer]);
+				if (places[currentPlayer] > 11) {//11 & 12 = magic numbers?
+					places[currentPlayer] = places[currentPlayer] - 12;
+				}
+				System.out.println(players.get(currentPlayer) + "'s new location is " + places[currentPlayer]);
 				System.out.println("The category is " + currentCategory());
 				askQuestion();
+				//fin  duplication
 			} else {
 				System.out.println(players.get(currentPlayer) + " is not getting out of the penalty box");
 				isGettingOutOfPenaltyBox = false;
-				}
-			
+			}
 		} else {
-		
+			//duplication: ligne 67
 			places[currentPlayer] = places[currentPlayer] + roll;
-			if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
-			
-			System.out.println(players.get(currentPlayer) 
-					+ "'s new location is " 
-					+ places[currentPlayer]);
+			if (places[currentPlayer] > 11) {
+				places[currentPlayer] = places[currentPlayer] - 12;			}
+			System.out.println(players.get(currentPlayer) + "'s new location is " + places[currentPlayer]);
 			System.out.println("The category is " + currentCategory());
 			askQuestion();
+			//---
 		}
-		
 	}
 
-	private void askQuestion() {
-		if (currentCategory() == "Pop")
+	private void askQuestion() {//one responsability
+		if (currentCategory() == "Pop")//qqc avec egal?
 			System.out.println(popQuestions.removeFirst());
 		if (currentCategory() == "Science")
 			System.out.println(scienceQuestions.removeFirst());
 		if (currentCategory() == "Sports")
 			System.out.println(sportsQuestions.removeFirst());
 		if (currentCategory() == "Rock")
-			System.out.println(rockQuestions.removeFirst());		
+			System.out.println(rockQuestions.removeFirst());
 	}
-	
-	
-	private String currentCategory() {
+
+
+	private String currentCategory() {//conditions a refaire? rearrange ?
 		if (places[currentPlayer] == 0) return "Pop";
 		if (places[currentPlayer] == 4) return "Pop";
 		if (places[currentPlayer] == 8) return "Pop";
@@ -107,58 +109,56 @@ public class Game {
 		if (places[currentPlayer] == 5) return "Science";
 		if (places[currentPlayer] == 9) return "Science";
 		if (places[currentPlayer] == 2) return "Sports";
-		if (places[currentPlayer] == 6) return "Sports";
+ 		if (places[currentPlayer] == 6) return "Sports";
 		if (places[currentPlayer] == 10) return "Sports";
 		return "Rock";
 	}
 
-	public boolean wasCorrectlyAnswered() {
+	public boolean wasCorrectlyAnswered() {//plusieurs responsabilites? renommer?
 		if (inPenaltyBox[currentPlayer]){
 			if (isGettingOutOfPenaltyBox) {
 				System.out.println("Answer was correct!!!!");
+				//duplication
 				purses[currentPlayer]++;
-				System.out.println(players.get(currentPlayer) 
-						+ " now has "
-						+ purses[currentPlayer]
-						+ " Gold Coins.");
-				
+				System.out.println(players.get(currentPlayer) + " now has " + purses[currentPlayer] + " Gold Coins.");
 				boolean winner = didPlayerWin();
 				currentPlayer++;
-				if (currentPlayer == players.size()) currentPlayer = 0;
-				
+				if (currentPlayer == players.size()) {
+					currentPlayer = 0;
+				}
 				return winner;
+				//---
 			} else {
 				currentPlayer++;
-				if (currentPlayer == players.size()) currentPlayer = 0;
+				if (currentPlayer == players.size()) {
+					currentPlayer = 0;
+				}
 				return true;
 			}
-			
-			
-			
 		} else {
-		
-			System.out.println("Answer was corrent!!!!");
+			System.out.println("Answer was corrent!!!!");//faute orthographe --> pour plus tard
+			//duplication
 			purses[currentPlayer]++;
-			System.out.println(players.get(currentPlayer) 
-					+ " now has "
-					+ purses[currentPlayer]
-					+ " Gold Coins.");
-			
+			System.out.println(players.get(currentPlayer) + " now has " + purses[currentPlayer] + " Gold Coins.");
 			boolean winner = didPlayerWin();
 			currentPlayer++;
-			if (currentPlayer == players.size()) currentPlayer = 0;
-			
+			if (currentPlayer == players.size()) {//reset to first player
+				currentPlayer = 0;
+			}
 			return winner;
+			//---
 		}
 	}
-	
-	public boolean wrongAnswer(){
+
+	public boolean wrongAnswer(){//return always true
 		System.out.println("Question was incorrectly answered");
 		System.out.println(players.get(currentPlayer)+ " was sent to the penalty box");
 		inPenaltyBox[currentPlayer] = true;
-		
-		currentPlayer++;
-		if (currentPlayer == players.size()) currentPlayer = 0;
+		//duplication
+		currentPlayer++;//next player
+		if (currentPlayer == players.size()) {
+			currentPlayer = 0;
+		}
 		return true;
 	}
 
