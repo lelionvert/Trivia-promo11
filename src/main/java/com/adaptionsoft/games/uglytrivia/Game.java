@@ -23,13 +23,8 @@ public class Game {
             popQuestions.addLast("Pop Question " + i);
             scienceQuestions.addLast(("Science Question " + i));
             sportsQuestions.addLast(("Sports Question " + i));
-            rockQuestions.addLast(createRockQuestion(i));
+            rockQuestions.addLast("Rock Question " + i);
         }
-    }
-
-    // Same as others
-    public String createRockQuestion(int index) {
-        return "Rock Question " + index;
     }
 
     // Not used
@@ -38,17 +33,13 @@ public class Game {
     }
 
     // Change signature, name, one responsability thing
-    public boolean add(String playerName) {
-
+    public void add(String playerName) {
         players.add(playerName);
-        // several calls of howManyPlayers
-        //extract methods?
         int numberPlayers = howManyPlayers();
         initPlayerState(numberPlayers);
 
         System.out.println(playerName + " was added");
-        System.out.println("They are player number " + numberPlayers);//duplication cachée
-        return true;
+        System.out.println("They are player number " + numberPlayers);
     }
 
     private void initPlayerState(int numberPlayers) {
