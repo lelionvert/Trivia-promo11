@@ -58,21 +58,20 @@ public class Game {
     public void roll(int roll) {
         System.out.println(players.get(currentPlayer) + " is the current player");
         System.out.println("They have rolled a " + roll);//faute orthographe --> pour plus tard
-        //imbrication des conditions
-        if (inPenaltyBox[currentPlayer]) {
-            if (roll % 2 == 0) {
-                isGettingOutOfPenaltyBox = false;
-                System.out.println(players.get(currentPlayer) + " is not getting out of the penalty box");
-            } else {
-                isGettingOutOfPenaltyBox = true;
-                System.out.println(players.get(currentPlayer) + " is getting out of the penalty box");
-                movePlayer(roll);
-                askQuestion();
-            }
-        } else {
-            movePlayer(roll);
-            askQuestion();
+
+        if (inPenaltyBox[currentPlayer] && roll % 2 == 0) {
+            isGettingOutOfPenaltyBox = false;
+            System.out.println(players.get(currentPlayer) + " is not getting out of the penalty box");
+            return;
         }
+
+        if (inPenaltyBox[currentPlayer] && roll % 2 != 0) {
+            isGettingOutOfPenaltyBox = true;
+            System.out.println(players.get(currentPlayer) + " is getting out of the penalty box");
+        }
+
+        movePlayer(roll);
+        askQuestion();
     }
 
 
