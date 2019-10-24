@@ -39,16 +39,22 @@ public class Game {
 
     // Change signature, name, one responsability thing
     public boolean add(String playerName) {
+
         players.add(playerName);
         // several calls of howManyPlayers
         //extract methods?
-        places[howManyPlayers()] = 0;
-        purses[howManyPlayers()] = 0;
-        inPenaltyBox[howManyPlayers()] = false;
+        int numberPlayers = howManyPlayers();
+        initPlayerState(numberPlayers);
 
         System.out.println(playerName + " was added");
-        System.out.println("They are player number " + players.size());//duplication cachée
+        System.out.println("They are player number " + numberPlayers);//duplication cachée
         return true;
+    }
+
+    private void initPlayerState(int numberPlayers) {
+        places[numberPlayers] = 0;
+        purses[numberPlayers] = 0;
+        inPenaltyBox[numberPlayers] = false;
     }
 
     public int howManyPlayers() {
@@ -135,7 +141,7 @@ public class Game {
 
     public void nextPlayer() {
         currentPlayer++;
-        if (currentPlayer == players.size()) {
+        if (currentPlayer == howManyPlayers()) {
             currentPlayer = 0;
         }
     }
