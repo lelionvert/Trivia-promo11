@@ -67,21 +67,19 @@ public class Game {
                 isGettingOutOfPenaltyBox = true;
                 System.out.println(players.get(currentPlayer) + " is getting out of the penalty box");
                 movePlayer(roll);
+                askQuestion();
             }
         } else {
             movePlayer(roll);
+            askQuestion();
         }
     }
 
 
     private void movePlayer(int roll) {
-        places[currentPlayer] = places[currentPlayer] + roll;
-        if (places[currentPlayer] > 11) {//11 & 12 = magic numbers?
-            places[currentPlayer] = places[currentPlayer] - 12;
-        }
+        places[currentPlayer] = (places[currentPlayer] + roll) % 12;
         System.out.println(players.get(currentPlayer) + "'s new location is " + places[currentPlayer]);
         System.out.println("The category is " + currentCategory());
-        askQuestion();
     }
 
     private void askQuestion() {//one responsability
@@ -95,11 +93,11 @@ public class Game {
             System.out.println(rockQuestions.removeFirst());
     }
 
-    private String currentCategory() { // conditions a refaire? rearrange ?
+    private String currentCategory() { // switch ??
         if (places[currentPlayer] % 4 == 0) return "Pop";
         if (places[currentPlayer] % 4 == 1) return "Science";
         if (places[currentPlayer] % 4 == 2) return "Sports";
-		return "Rock";
+        return "Rock";
     }
 
     public boolean wasCorrectlyAnswered() { // plusieurs responsabilites? renommer?
