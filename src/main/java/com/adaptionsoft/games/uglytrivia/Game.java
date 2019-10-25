@@ -21,7 +21,7 @@ public class Game {
     }
 
     public void roll(int roll) {
-        System.out.println(getCurrentPlayer() + " is the current player");
+        getCurrentPlayer().print();
         System.out.println("They have rolled a " + roll); // faute orthographe --> pour plus tard
 
         boolean isCurrentPlayerInPenaltyBox = getCurrentPlayer().isInPenalty();

@@ -44,4 +44,9 @@ public class Player {
     public void setInPenalty(boolean bool) {
         inPenalty = bool;
     }
+
+    public void print() {
+        System.out.println(name + " is the current player");
+    }
+
 }
