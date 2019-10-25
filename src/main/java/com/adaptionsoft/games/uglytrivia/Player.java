@@ -36,4 +36,12 @@ public class Player {
     public int getPurse() {
         return purse;
     }
+
+    public boolean isInPenalty() {
+        return inPenalty;
+    }
+
+    public void setInPenalty(boolean bool) {
+        inPenalty = bool;
+    }
 }

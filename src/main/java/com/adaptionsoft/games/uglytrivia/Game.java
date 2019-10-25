@@ -2,10 +2,7 @@ package com.adaptionsoft.games.uglytrivia;
 
 public class Game {
     Players players;
-    boolean[] inPenaltyBox = new boolean[6];
-    
     final Deck deck;
-
     int currentPlayer = 0;
     boolean isGettingOutOfPenaltyBox;
 
@@ -22,13 +19,6 @@ public class Game {
     // Change signature, name, one responsability thing
     public void add(String playerName) {
         players.add(playerName);
-
-        int numberPlayers = howManyPlayers();
-        initPlayerState(numberPlayers);
-    }
-
-    private void initPlayerState(int numberPlayers) {
-        inPenaltyBox[numberPlayers] = false;
     }
 
     private Player getCurrentPlayer() {
@@ -43,7 +33,7 @@ public class Game {
         System.out.println(getCurrentPlayer() + " is the current player");
         System.out.println("They have rolled a " + roll);//faute orthographe --> pour plus tard
 
-        boolean isCurrentPlayerInPenaltyBox = this.inPenaltyBox[currentPlayer];
+        boolean isCurrentPlayerInPenaltyBox = getCurrentPlayer().isInPenalty();
 
         if (isCurrentPlayerInPenaltyBox && isEven(roll)) {
             // Extract in method enterPenaltyBox
@@ -76,11 +66,11 @@ public class Game {
     }
 
     public boolean wasCorrectlyAnswered() { // plusieurs responsabilites? renommer?
-        if (inPenaltyBox[currentPlayer] && !isGettingOutOfPenaltyBox) {
+        if (getCurrentPlayer().isInPenalty() && !isGettingOutOfPenaltyBox) {
             return true;
         }
 
-        if (inPenaltyBox[currentPlayer] && isGettingOutOfPenaltyBox) {
+        if (getCurrentPlayer().isInPenalty() && isGettingOutOfPenaltyBox) {
             System.out.println("Answer was correct!!!!");
         } else {
             System.out.println("Answer was corrent!!!!"); // faute orthographe --> pour plus tard
@@ -104,7 +94,7 @@ public class Game {
     public boolean wrongAnswer() { // return always true
         System.out.println("Question was incorrectly answered");
         System.out.println(getCurrentPlayer() + " was sent to the penalty box");
-        inPenaltyBox[currentPlayer] = true;
+        getCurrentPlayer().setInPenalty(true);
         nextPlayer();
         return true;
     }
