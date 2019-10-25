@@ -105,10 +105,10 @@ public class Game {
     }
 
     private String currentCategory() { // switch ??
-        if (places[currentPlayer] % 4 == 0) return "Pop";
-        if (places[currentPlayer] % 4 == 1) return "Science";
-        if (places[currentPlayer] % 4 == 2) return "Sports";
-        return "Rock";
+        if (places[currentPlayer] % 4 == 0) return QuestionCategory.POP.getCategory();
+        if (places[currentPlayer] % 4 == 1) return QuestionCategory.SCIENCE.getCategory();
+        if (places[currentPlayer] % 4 == 2) return QuestionCategory.SPORT.getCategory();
+        return QuestionCategory.ROCK.getCategory();
     }
 
     public boolean wasCorrectlyAnswered() { // plusieurs responsabilites? renommer?
