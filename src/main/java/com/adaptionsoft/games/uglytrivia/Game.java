@@ -15,6 +15,12 @@ public class Game {
     LinkedList sportsQuestions = new LinkedList();
     LinkedList rockQuestions = new LinkedList();
 
+    // Duplication -> Same class
+    QuestionStack popQuestionStack;
+    QuestionStack scienceQuestionStack;
+    QuestionStack sportsQuestionStack;
+    QuestionStack rockQuestionStack;
+
     int currentPlayer = 0;
     boolean isGettingOutOfPenaltyBox;
 
@@ -25,6 +31,10 @@ public class Game {
             sportsQuestions.addLast("Sports Question " + i);
             rockQuestions.addLast("Rock Question " + i);
         }
+        popQuestionStack = QuestionStack.initializeStack(QuestionCategory.POP);
+        scienceQuestionStack = QuestionStack.initializeStack(QuestionCategory.SCIENCE);
+        sportsQuestionStack = QuestionStack.initializeStack(QuestionCategory.SPORT);
+        rockQuestionStack = QuestionStack.initializeStack(QuestionCategory.ROCK);
     }
 
     // Not used
@@ -94,8 +104,8 @@ public class Game {
         return roll % 2 == 0;
     }
 
-    private void askQuestion() {//one responsability
-        if (currentCategory() == QuestionCategory.POP)//qqc avec egal?
+    private void askQuestion() { // one responsability, extract variable currentcategory()
+        if (currentCategory() == QuestionCategory.POP) // qqc avec egal?
             System.out.println(popQuestions.removeFirst());
         if (currentCategory() == QuestionCategory.SCIENCE)
             System.out.println(scienceQuestions.removeFirst());
