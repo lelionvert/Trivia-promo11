@@ -104,12 +104,11 @@ public class Game {
             System.out.println(rockQuestions.removeFirst());
     }
 
-    private String currentCategory() { // switch ??
-        if (places[currentPlayer] % 4 == 0) return QuestionCategory.POP.getCategory();
-        if (places[currentPlayer] % 4 == 1) return QuestionCategory.SCIENCE.getCategory();
-        if (places[currentPlayer] % 4 == 2) return QuestionCategory.SPORT.getCategory();
-        return QuestionCategory.ROCK.getCategory();
+    private String currentCategory() {
+        return QuestionCategory.getCategoryBy(places[currentPlayer]);
     }
+
+
 
     public boolean wasCorrectlyAnswered() { // plusieurs responsabilites? renommer?
         if (inPenaltyBox[currentPlayer] && !isGettingOutOfPenaltyBox) {

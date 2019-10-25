@@ -6,12 +6,13 @@ public enum QuestionCategory {
     SPORT("Sports"),
     ROCK("Rock");
     private String category;
+    private static QuestionCategory[] values = QuestionCategory.values();
 
     QuestionCategory(String category) {
         this.category = category;
     }
 
-    public String getCategory() {
-        return category;
+    public static String getCategoryBy(int position) {
+        return values[position % values.length].category;
     }
 }
