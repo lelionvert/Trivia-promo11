@@ -2,7 +2,6 @@ package com.adaptionsoft.games.uglytrivia;
 
 public class Game {
     Players players;
-    int[] purses = new int[6];
     boolean[] inPenaltyBox = new boolean[6];
     
     final Deck deck;
@@ -29,17 +28,11 @@ public class Game {
     }
 
     private void initPlayerState(int numberPlayers) {
-        purses[numberPlayers] = 0;
         inPenaltyBox[numberPlayers] = false;
     }
 
     private Player getCurrentPlayer() {
         return players.getPlayerByIndex(currentPlayer);
-    }
-
-    private void increasePursePlayer() {
-        purses[currentPlayer]++;
-        System.out.println(getCurrentPlayer() + " now has " + purses[currentPlayer] + " Gold Coins.");
     }
 
     public int howManyPlayers() {
@@ -93,12 +86,12 @@ public class Game {
             System.out.println("Answer was corrent!!!!"); // faute orthographe --> pour plus tard
         }
 
-        increasePursePlayer();
+        getCurrentPlayer().increasePurse();
         return didPlayerWin();
     }
 
     private boolean didPlayerWin() {
-        return purses[currentPlayer] != 6;
+        return getCurrentPlayer().getPurse() != 6;
     }
 
     public void nextPlayer() {

@@ -27,4 +27,13 @@ public class Player {
     public int getPlace() {
         return place;
     }
+
+    public void increasePurse() {
+        purse++;
+        System.out.println(name + " now has " + purse + " Gold Coins.");
+    }
+
+    public int getPurse() {
+        return purse;
+    }
 }
