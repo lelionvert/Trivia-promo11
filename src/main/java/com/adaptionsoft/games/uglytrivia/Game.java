@@ -2,7 +2,6 @@ package com.adaptionsoft.games.uglytrivia;
 
 public class Game {
     Players players;
-    int[] places = new int[6];
     int[] purses = new int[6];
     boolean[] inPenaltyBox = new boolean[6];
     
@@ -30,13 +29,11 @@ public class Game {
     }
 
     private void initPlayerState(int numberPlayers) {
-        places[numberPlayers] = 0;
         purses[numberPlayers] = 0;
         inPenaltyBox[numberPlayers] = false;
     }
 
     private void movePlayer(int roll) {
-        places[currentPlayer] = (places[currentPlayer] + roll) % 12;
         // Demeter
         players.getPlayerByIndex(currentPlayer).move(roll);
     }
@@ -83,7 +80,7 @@ public class Game {
     }
 
     private QuestionCategory currentCategory() {
-        return QuestionCategory.getCategoryBy(places[currentPlayer]);
+        return QuestionCategory.getCategoryBy(players.getPlayerByIndex(currentPlayer).getPlace());
     }
 
     public boolean wasCorrectlyAnswered() { // plusieurs responsabilites? renommer?
