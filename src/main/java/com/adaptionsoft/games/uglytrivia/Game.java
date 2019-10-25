@@ -11,17 +11,13 @@ public class Game {
     int[] purses = new int[6];
     boolean[] inPenaltyBox = new boolean[6];
     
-    Map<QuestionCategory, QuestionStack> questionCategoryStack;
+    final Deck deck;
 
     int currentPlayer = 0;
     boolean isGettingOutOfPenaltyBox;
 
     public Game() {
-        questionCategoryStack = new HashMap<>();
-        for (QuestionCategory category : QuestionCategory.values()){
-            QuestionStack questionStack = QuestionStack.initializeStack(category);
-            questionCategoryStack.put(category, questionStack);
-        }
+        deck = new Deck();
     }
 
     // Not used
@@ -80,7 +76,7 @@ public class Game {
 
         movePlayer(roll);
         currentCategory().print();
-        questionCategoryStack.get(currentCategory()).printFirstQuestion();
+        deck.printQuestionCategory(currentCategory());
     }
 
     private boolean isOdd(int roll) {
