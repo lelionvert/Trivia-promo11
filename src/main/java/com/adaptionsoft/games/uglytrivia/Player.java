@@ -14,4 +14,9 @@ public class Player {
         this.inPenalty = false;
     }
 
+    public void move(int roll) {
+        place = (place + roll) % 12;
+        System.out.println(name + "'s new location is " + place);
+    }
+
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Game {
     ArrayList players = new ArrayList();
+    Players renameMe;
     int[] places = new int[6];
     int[] purses = new int[6];
     boolean[] inPenaltyBox = new boolean[6];
@@ -15,6 +16,7 @@ public class Game {
 
     public Game() {
         deck = Deck.initializeDeck();
+        renameMe = new Players();
     }
 
     // Not used
@@ -25,11 +27,11 @@ public class Game {
     // Change signature, name, one responsability thing
     public void add(String playerName) {
         players.add(playerName);
+        renameMe.add(playerName);
+
         int numberPlayers = howManyPlayers();
         initPlayerState(numberPlayers);
 
-        System.out.println(playerName + " was added");
-        System.out.println("They are player number " + numberPlayers);
     }
 
     private void initPlayerState(int numberPlayers) {
@@ -40,7 +42,7 @@ public class Game {
 
     private void movePlayer(int roll) {
         places[currentPlayer] = (places[currentPlayer] + roll) % 12;
-        System.out.println(players.get(currentPlayer) + "'s new location is " + places[currentPlayer]);
+        renameMe.getPlayerByIndex(currentPlayer).move(roll);
     }
 
     private void increasePursePlayer() {
