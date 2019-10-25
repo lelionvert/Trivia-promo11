@@ -1,9 +1,6 @@
 package com.adaptionsoft.games.uglytrivia;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Game {
     ArrayList players = new ArrayList();
@@ -17,7 +14,7 @@ public class Game {
     boolean isGettingOutOfPenaltyBox;
 
     public Game() {
-        deck = new Deck();
+        deck = Deck.initializeDeck();
     }
 
     // Not used
