@@ -33,14 +33,13 @@ public class Game {
         inPenaltyBox[numberPlayers] = false;
     }
 
-    private void movePlayer(int roll) {
-        // Demeter
-        players.getPlayerByIndex(currentPlayer).move(roll);
+    private Player getCurrentPlayer() {
+        return players.getPlayerByIndex(currentPlayer);
     }
 
     private void increasePursePlayer() {
         purses[currentPlayer]++;
-        System.out.println(players.getPlayerByIndex(currentPlayer) + " now has " + purses[currentPlayer] + " Gold Coins.");
+        System.out.println(getCurrentPlayer() + " now has " + purses[currentPlayer] + " Gold Coins.");
     }
 
     public int howManyPlayers() {
@@ -48,7 +47,7 @@ public class Game {
     }
 
     public void roll(int roll) {
-        System.out.println(players.getPlayerByIndex(currentPlayer) + " is the current player");
+        System.out.println(getCurrentPlayer() + " is the current player");
         System.out.println("They have rolled a " + roll);//faute orthographe --> pour plus tard
 
         boolean isCurrentPlayerInPenaltyBox = this.inPenaltyBox[currentPlayer];
@@ -56,17 +55,17 @@ public class Game {
         if (isCurrentPlayerInPenaltyBox && isEven(roll)) {
             // Extract in method enterPenaltyBox
             isGettingOutOfPenaltyBox = false;
-            System.out.println(players.getPlayerByIndex(currentPlayer) + " is not getting out of the penalty box");
+            System.out.println(getCurrentPlayer() + " is not getting out of the penalty box");
             return;
         }
 
         if (isCurrentPlayerInPenaltyBox && isOdd(roll)) {
             // Extract in method exitPenaltyBox
             isGettingOutOfPenaltyBox = true;
-            System.out.println(players.getPlayerByIndex(currentPlayer) + " is getting out of the penalty box");
+            System.out.println(getCurrentPlayer() + " is getting out of the penalty box");
         }
 
-        movePlayer(roll);
+        getCurrentPlayer().move(roll);
         currentCategory().print();
         deck.printQuestionCategory(currentCategory());
     }
@@ -80,7 +79,7 @@ public class Game {
     }
 
     private QuestionCategory currentCategory() {
-        return QuestionCategory.getCategoryBy(players.getPlayerByIndex(currentPlayer).getPlace());
+        return QuestionCategory.getCategoryBy(getCurrentPlayer().getPlace());
     }
 
     public boolean wasCorrectlyAnswered() { // plusieurs responsabilites? renommer?
@@ -111,7 +110,7 @@ public class Game {
 
     public boolean wrongAnswer() { // return always true
         System.out.println("Question was incorrectly answered");
-        System.out.println(players.getPlayerByIndex(currentPlayer) + " was sent to the penalty box");
+        System.out.println(getCurrentPlayer() + " was sent to the penalty box");
         inPenaltyBox[currentPlayer] = true;
         nextPlayer();
         return true;
