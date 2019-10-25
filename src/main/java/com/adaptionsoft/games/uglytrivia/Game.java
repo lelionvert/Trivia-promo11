@@ -1,6 +1,7 @@
 package com.adaptionsoft.games.uglytrivia;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,12 +10,6 @@ public class Game {
     int[] places = new int[6];
     int[] purses = new int[6];
     boolean[] inPenaltyBox = new boolean[6];
-
-    // Duplication -> Same class
-    QuestionStack popQuestionStack;
-    QuestionStack scienceQuestionStack;
-    QuestionStack sportsQuestionStack;
-    QuestionStack rockQuestionStack;
     
     Map<QuestionCategory, QuestionStack> questionCategoryStack;
 
@@ -22,16 +17,11 @@ public class Game {
     boolean isGettingOutOfPenaltyBox;
 
     public Game() {
-        popQuestionStack = QuestionStack.initializeStack(QuestionCategory.POP);
-        scienceQuestionStack = QuestionStack.initializeStack(QuestionCategory.SCIENCE);
-        sportsQuestionStack = QuestionStack.initializeStack(QuestionCategory.SPORT);
-        rockQuestionStack = QuestionStack.initializeStack(QuestionCategory.ROCK);
-        
         questionCategoryStack = new HashMap<>();
-        questionCategoryStack.put(QuestionCategory.POP, popQuestionStack);
-        questionCategoryStack.put(QuestionCategory.SCIENCE, scienceQuestionStack);
-        questionCategoryStack.put(QuestionCategory.SPORT, sportsQuestionStack);
-        questionCategoryStack.put(QuestionCategory.ROCK, rockQuestionStack);
+        for (QuestionCategory category : QuestionCategory.values()){
+            QuestionStack questionStack = QuestionStack.initializeStack(category);
+            questionCategoryStack.put(category, questionStack);
+        }
     }
 
     // Not used
