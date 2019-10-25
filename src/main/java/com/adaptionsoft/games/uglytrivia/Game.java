@@ -11,11 +11,6 @@ public class Game {
         players = new Players();
     }
 
-    // Not used
-    public boolean isPlayable() {
-        return (howManyPlayers() >= 2);
-    }
-
     // Change signature, name, one responsability thing
     public void add(String playerName) {
         players.add(playerName);
@@ -25,13 +20,9 @@ public class Game {
         return players.getPlayerByIndex(currentPlayer);
     }
 
-    public int howManyPlayers() {
-        return players.size();
-    }
-
     public void roll(int roll) {
         System.out.println(getCurrentPlayer() + " is the current player");
-        System.out.println("They have rolled a " + roll);//faute orthographe --> pour plus tard
+        System.out.println("They have rolled a " + roll); // faute orthographe --> pour plus tard
 
         boolean isCurrentPlayerInPenaltyBox = getCurrentPlayer().isInPenalty();
 
@@ -86,7 +77,7 @@ public class Game {
 
     public void nextPlayer() {
         currentPlayer++;
-        if (currentPlayer == howManyPlayers()) {
+        if (currentPlayer == players.size()) {
             currentPlayer = 0;
         }
     }
