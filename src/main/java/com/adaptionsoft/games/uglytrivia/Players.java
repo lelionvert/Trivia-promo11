@@ -15,4 +15,8 @@ public class Players {
     public Player getPlayerByIndex(int index) {
         return listPlayer.get(index);
     }
+
+    public int size() {
+        return listPlayer.size();
+    }
 }

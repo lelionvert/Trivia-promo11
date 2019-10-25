@@ -19,4 +19,8 @@ public class Player {
         System.out.println(name + "'s new location is " + place);
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }

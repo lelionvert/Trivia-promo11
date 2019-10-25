@@ -1,10 +1,7 @@
 package com.adaptionsoft.games.uglytrivia;
 
-import java.util.ArrayList;
-
 public class Game {
-    ArrayList players = new ArrayList();
-    Players renameMe;
+    Players players;
     int[] places = new int[6];
     int[] purses = new int[6];
     boolean[] inPenaltyBox = new boolean[6];
@@ -16,7 +13,7 @@ public class Game {
 
     public Game() {
         deck = Deck.initializeDeck();
-        renameMe = new Players();
+        players = new Players();
     }
 
     // Not used
@@ -27,11 +24,9 @@ public class Game {
     // Change signature, name, one responsability thing
     public void add(String playerName) {
         players.add(playerName);
-        renameMe.add(playerName);
 
         int numberPlayers = howManyPlayers();
         initPlayerState(numberPlayers);
-
     }
 
     private void initPlayerState(int numberPlayers) {
@@ -42,12 +37,13 @@ public class Game {
 
     private void movePlayer(int roll) {
         places[currentPlayer] = (places[currentPlayer] + roll) % 12;
-        renameMe.getPlayerByIndex(currentPlayer).move(roll);
+        // Demeter
+        players.getPlayerByIndex(currentPlayer).move(roll);
     }
 
     private void increasePursePlayer() {
         purses[currentPlayer]++;
-        System.out.println(players.get(currentPlayer) + " now has " + purses[currentPlayer] + " Gold Coins.");
+        System.out.println(players.getPlayerByIndex(currentPlayer) + " now has " + purses[currentPlayer] + " Gold Coins.");
     }
 
     public int howManyPlayers() {
@@ -55,7 +51,7 @@ public class Game {
     }
 
     public void roll(int roll) {
-        System.out.println(players.get(currentPlayer) + " is the current player");
+        System.out.println(players.getPlayerByIndex(currentPlayer) + " is the current player");
         System.out.println("They have rolled a " + roll);//faute orthographe --> pour plus tard
 
         boolean isCurrentPlayerInPenaltyBox = this.inPenaltyBox[currentPlayer];
@@ -63,14 +59,14 @@ public class Game {
         if (isCurrentPlayerInPenaltyBox && isEven(roll)) {
             // Extract in method enterPenaltyBox
             isGettingOutOfPenaltyBox = false;
-            System.out.println(players.get(currentPlayer) + " is not getting out of the penalty box");
+            System.out.println(players.getPlayerByIndex(currentPlayer) + " is not getting out of the penalty box");
             return;
         }
 
         if (isCurrentPlayerInPenaltyBox && isOdd(roll)) {
             // Extract in method exitPenaltyBox
             isGettingOutOfPenaltyBox = true;
-            System.out.println(players.get(currentPlayer) + " is getting out of the penalty box");
+            System.out.println(players.getPlayerByIndex(currentPlayer) + " is getting out of the penalty box");
         }
 
         movePlayer(roll);
@@ -118,7 +114,7 @@ public class Game {
 
     public boolean wrongAnswer() { // return always true
         System.out.println("Question was incorrectly answered");
-        System.out.println(players.get(currentPlayer) + " was sent to the penalty box");
+        System.out.println(players.getPlayerByIndex(currentPlayer) + " was sent to the penalty box");
         inPenaltyBox[currentPlayer] = true;
         nextPlayer();
         return true;
