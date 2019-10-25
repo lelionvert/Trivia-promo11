@@ -82,7 +82,7 @@ public class Game {
         }
 
         movePlayer(roll);
-        System.out.println("The category is " + currentCategory());
+        currentCategory().print();
         askQuestion();
     }
 
@@ -93,22 +93,21 @@ public class Game {
     private boolean isEven(int roll) {
         return roll % 2 == 0;
     }
+
     private void askQuestion() {//one responsability
-        if (currentCategory() == "Pop")//qqc avec egal?
+        if (currentCategory() == QuestionCategory.POP)//qqc avec egal?
             System.out.println(popQuestions.removeFirst());
-        if (currentCategory() == "Science")
+        if (currentCategory() == QuestionCategory.SCIENCE)
             System.out.println(scienceQuestions.removeFirst());
-        if (currentCategory() == "Sports")
+        if (currentCategory() == QuestionCategory.SPORT)
             System.out.println(sportsQuestions.removeFirst());
-        if (currentCategory() == "Rock")
+        if (currentCategory() == QuestionCategory.ROCK)
             System.out.println(rockQuestions.removeFirst());
     }
 
-    private String currentCategory() {
+    private QuestionCategory currentCategory() {
         return QuestionCategory.getCategoryBy(places[currentPlayer]);
     }
-
-
 
     public boolean wasCorrectlyAnswered() { // plusieurs responsabilites? renommer?
         if (inPenaltyBox[currentPlayer] && !isGettingOutOfPenaltyBox) {

@@ -12,7 +12,11 @@ public enum QuestionCategory {
         this.category = category;
     }
 
-    public static String getCategoryBy(int position) {
-        return values[position % values.length].category;
+    public static QuestionCategory getCategoryBy(int position) {
+        return values[position % values.length];
+    }
+
+    public void print() {
+        System.out.println("The category is " + category);
     }
 }
