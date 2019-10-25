@@ -6,6 +6,7 @@ public class Player {
     private int place;
     private int purse;
     private boolean inPenalty;
+    private boolean isGettingOutOfPenaltyBox;
 
     public Player(String name) {
         this.name = name;
@@ -49,4 +50,31 @@ public class Player {
         System.out.println(name + " is the current player");
     }
 
+    public boolean tryExitPenaltyBox(int roll) {
+        if (inPenalty && isEven(roll)) {
+            // Extract in method enterPenaltyBox
+            isGettingOutOfPenaltyBox = false;
+            System.out.println(name + " is not getting out of the penalty box");
+            return true;
+        }
+
+        if (inPenalty && isOdd(roll)) {
+            // Extract in method exitPenaltyBox
+            isGettingOutOfPenaltyBox = true;
+            System.out.println(name + " is getting out of the penalty box");
+        }
+        return false;
+    }
+
+    private boolean isOdd(int roll) {
+        return roll % 2 != 0;
+    }
+
+    private boolean isEven(int roll) {
+        return roll % 2 == 0;
+    }
+
+    public boolean isGettingOut() {
+        return isGettingOutOfPenaltyBox;
+    }
 }

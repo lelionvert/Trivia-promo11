@@ -3,7 +3,6 @@ package com.adaptionsoft.games.uglytrivia;
 public class Game {
     Players players;
     final Deck deck;
-    boolean isGettingOutOfPenaltyBox;
 
     public Game() {
         deck = Deck.initializeDeck();
@@ -20,32 +19,11 @@ public class Game {
 
         System.out.println("They have rolled a " + roll); // faute orthographe --> pour plus tard
 
-        boolean isCurrentPlayerInPenaltyBox = players.getCurrentPlayer().isInPenalty();
-
-        if (isCurrentPlayerInPenaltyBox && isEven(roll)) {
-            // Extract in method enterPenaltyBox
-            isGettingOutOfPenaltyBox = false;
-            System.out.println(players.getCurrentPlayer() + " is not getting out of the penalty box");
-            return;
-        }
-
-        if (isCurrentPlayerInPenaltyBox && isOdd(roll)) {
-            // Extract in method exitPenaltyBox
-            isGettingOutOfPenaltyBox = true;
-            System.out.println(players.getCurrentPlayer() + " is getting out of the penalty box");
-        }
+        if (players.getCurrentPlayer().tryExitPenaltyBox(roll)) return;
 
         players.getCurrentPlayer().move(roll);
         currentCategory().print();
         deck.printQuestionCategory(currentCategory());
-    }
-
-    private boolean isOdd(int roll) {
-        return roll % 2 != 0;
-    }
-
-    private boolean isEven(int roll) {
-        return roll % 2 == 0;
     }
 
     private QuestionCategory currentCategory() {
@@ -53,11 +31,12 @@ public class Game {
     }
 
     public boolean wasCorrectlyAnswered() { // plusieurs responsabilites? renommer?
-        if (players.getCurrentPlayer().isInPenalty() && !isGettingOutOfPenaltyBox) {
+        if (players.getCurrentPlayer().isInPenalty() && !players.getCurrentPlayer().isGettingOut()) {
             return true;
         }
 
-        if (players.getCurrentPlayer().isInPenalty() && isGettingOutOfPenaltyBox) {
+
+        if (players.getCurrentPlayer().isInPenalty() && players.getCurrentPlayer().isGettingOut()) {
             System.out.println("Answer was correct!!!!");
         } else {
             System.out.println("Answer was corrent!!!!"); // faute orthographe --> pour plus tard
