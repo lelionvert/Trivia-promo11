@@ -1,7 +1,8 @@
 package com.adaptionsoft.games.uglytrivia;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Game {
     ArrayList players = new ArrayList();
@@ -10,31 +11,27 @@ public class Game {
     boolean[] inPenaltyBox = new boolean[6];
 
     // Duplication -> Same class
-    LinkedList popQuestions = new LinkedList();
-    LinkedList scienceQuestions = new LinkedList();
-    LinkedList sportsQuestions = new LinkedList();
-    LinkedList rockQuestions = new LinkedList();
-
-    // Duplication -> Same class
     QuestionStack popQuestionStack;
     QuestionStack scienceQuestionStack;
     QuestionStack sportsQuestionStack;
     QuestionStack rockQuestionStack;
+    
+    Map<QuestionCategory, QuestionStack> questionCategoryStack;
 
     int currentPlayer = 0;
     boolean isGettingOutOfPenaltyBox;
 
     public Game() {
-        for (int i = 0; i < 50; i++) {
-            popQuestions.addLast("Pop Question " + i);
-            scienceQuestions.addLast("Science Question " + i);
-            sportsQuestions.addLast("Sports Question " + i);
-            rockQuestions.addLast("Rock Question " + i);
-        }
         popQuestionStack = QuestionStack.initializeStack(QuestionCategory.POP);
         scienceQuestionStack = QuestionStack.initializeStack(QuestionCategory.SCIENCE);
         sportsQuestionStack = QuestionStack.initializeStack(QuestionCategory.SPORT);
         rockQuestionStack = QuestionStack.initializeStack(QuestionCategory.ROCK);
+        
+        questionCategoryStack = new HashMap<>();
+        questionCategoryStack.put(QuestionCategory.POP, popQuestionStack);
+        questionCategoryStack.put(QuestionCategory.SCIENCE, scienceQuestionStack);
+        questionCategoryStack.put(QuestionCategory.SPORT, sportsQuestionStack);
+        questionCategoryStack.put(QuestionCategory.ROCK, rockQuestionStack);
     }
 
     // Not used
@@ -93,7 +90,7 @@ public class Game {
 
         movePlayer(roll);
         currentCategory().print();
-        askQuestion();
+        questionCategoryStack.get(currentCategory()).printFirstQuestion();
     }
 
     private boolean isOdd(int roll) {
@@ -102,17 +99,6 @@ public class Game {
 
     private boolean isEven(int roll) {
         return roll % 2 == 0;
-    }
-
-    private void askQuestion() { // one responsability, extract variable currentcategory()
-        if (currentCategory() == QuestionCategory.POP) // qqc avec egal?
-            System.out.println(popQuestions.removeFirst());
-        if (currentCategory() == QuestionCategory.SCIENCE)
-            System.out.println(scienceQuestions.removeFirst());
-        if (currentCategory() == QuestionCategory.SPORT)
-            System.out.println(sportsQuestions.removeFirst());
-        if (currentCategory() == QuestionCategory.ROCK)
-            System.out.println(rockQuestions.removeFirst());
     }
 
     private QuestionCategory currentCategory() {

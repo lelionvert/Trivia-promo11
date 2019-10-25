@@ -23,4 +23,8 @@ public class QuestionStack {
         }
         return questions;
     }
+
+    public void printFirstQuestion() { // one responsability, extract variable currentcategory()
+        System.out.println(questions.removeFirst());
+    }
 }

@@ -16,6 +16,11 @@ public enum QuestionCategory {
         return values[position % values.length];
     }
 
+    @Override
+    public String toString() {
+        return category;
+    }
+
     public void print() {
         System.out.println("The category is " + category);
     }
